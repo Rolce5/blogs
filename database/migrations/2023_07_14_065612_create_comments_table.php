@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('author');
             $table->string('email');
-            $table->string('text');
+            $table->string('comment');
             $table->unsignedBigInteger('post_id');
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
             $table->timestamps();

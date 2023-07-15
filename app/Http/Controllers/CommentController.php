@@ -9,9 +9,7 @@ use Illuminate\Http\Request;
 class CommentController extends Controller
 {
     //
-    public function store(Request $request, $postId){
-        // Retrieve the post from the database
-        $post = Post::findOrFail($postId);
+    public function store(Request $request, Post $post){
     
         // Validate the request data
         $validatedData = $request->validate([
@@ -26,7 +24,8 @@ class CommentController extends Controller
         // Associate the comment with the post and save it
         $post->comments()->save($comment);
     
+        session()->flash('success', 'Comment added successfully');
         // Redirect back to the post with a success message
-        return redirect()->route('posts.show', $post)->with('success', 'Comment added successfully.');
+        return redirect()->back()->with('success', 'Comment added successfully.');
     }
 }

@@ -22,7 +22,7 @@
                 <label>Image</label>
                 <input type="file" accept="image/*" name="image"
                        class="form-control @error('image') is-invalid @enderror">
-                       @if ($error)
+                       @if ($errors)
                         @error('image')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror

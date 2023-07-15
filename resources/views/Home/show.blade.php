@@ -37,19 +37,20 @@
             <button type="submit" class="btn btn-primary mt-2">Post</button>
         </form>
         <div class="mt-4">
-            @foreach ($comments as $comment)
+            {{-- @foreach ($post->comments() as $comment) --}}
+            @foreach ($post->comments as $comment)
                 <div class="mb-3 bg-white p-4 rounded shadow">
                     <div class="d-flex align-items-center">
                         <div class="mr-4 flex-shrink-0">
-                            <span class="bg-dark-subtle p-3 rounded-circle">{{ strtoupper(substr($comment->author, 0, 2)) }}</span>
+                            <span class="bg-dark-subtle p-3 rounded-circle">{{ strtoupper(implode('', array_map(function($word) { return $word[0]; }, explode(' ', $comment->author)))) }}</span>
                         </div>
                         <div class="flex-grow-1 ms-2">
                             <p class="mb-0 font-weight-bold">{{ $comment->author }}</p>
-                            <p class="mb-0 text-muted">{{ $comment->created_at->toLocaleString() }}</p>
+                            <p class="mb-0 text-muted">{{ \Carbon\Carbon::parse($post->created_at)->diffForHumans() }}</p>
                         </div>
                     </div>
                     <div class="mt-3 ms-2">
-                        <p>{{ $comment->text }}</p>
+                        <p>{{ $comment->comment }}</p>
                     </div>
                 </div>
             @endforeach

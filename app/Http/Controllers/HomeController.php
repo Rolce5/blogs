@@ -12,7 +12,10 @@ class HomeController extends Controller
     public function index(){
         $posts = Post::latest()->paginate(6);
         return view('home.index', compact('posts'));
-        // return response()->json($posts);
+        // return response()->json([
+        //     'posts' => $posts,
+        //     'createdAt' => now(),
+        // ]);
     }
 
     public function show(Post $post){
