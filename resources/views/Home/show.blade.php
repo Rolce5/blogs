@@ -37,7 +37,6 @@
             <button type="submit" class="btn btn-primary mt-2">Post</button>
         </form>
         <div class="mt-4">
-            {{-- @foreach ($post->comments() as $comment) --}}
             @foreach ($post->comments as $comment)
                 <div class="mb-3 bg-white p-4 rounded shadow">
                     <div class="d-flex align-items-center">
@@ -46,11 +45,11 @@
                         </div>
                         <div class="flex-grow-1 ms-2">
                             <p class="mb-0 font-weight-bold">{{ $comment->author }}</p>
-                            <p class="mb-0 text-muted">{{ \Carbon\Carbon::parse($post->created_at)->diffForHumans() }}</p>
+                            <small class="mb-0 text-muted ">{{ \Carbon\Carbon::parse($post->created_at)->diffForHumans() }}</small>
                         </div>
                     </div>
                     <div class="mt-3 ms-2">
-                        <p>{{ $comment->comment }}</p>
+                        <p class="fw-medium">{{ $comment->comment }}</p>
                     </div>
                 </div>
             @endforeach

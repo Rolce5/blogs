@@ -38,8 +38,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
-             
+        //   
         request()->validate([
             'title'  => 'required',
             'image'  => 'nullable|mimes:jpg,png,svg',
@@ -53,18 +52,14 @@ class PostController extends Controller
             'title' => $request->title,
             'body' => $request->body,
         ]);
-        // if ($request->hasFile('image')) {
-        //     $path = $request->file('image')->store('public/images');
-        //     $post->image = Storage::url($path);
-        // }
 
-            // Upload cover image if present
-            if ($request->file('image')) {
-                $request->image->storeAs('images', time() . '_' . $request->image->getClientOriginalName(), 'public');
-                $post->image = 'images/' . time() . '_' . $request->image->getClientOriginalName();
-            } else {
-                $post->image = null;
-            }
+        // Upload cover image if present
+        if ($request->file('image')) {
+            $request->image->storeAs('images', time() . '_' . $request->image->getClientOriginalName(), 'public');
+            $post->image = 'images/' . time() . '_' . $request->image->getClientOriginalName();
+        } else {
+            $post->image = null;
+        }
     
         $user->posts()->save($post);
 
@@ -97,38 +92,32 @@ class PostController extends Controller
      */
     public function update(Request $request, string $id)
     {
-                //
-                $user = Auth::user();
-                $post = $user->posts()->findOrFail($id);
+        //
+        $user = Auth::user();
+        $post = $user->posts()->findOrFail($id);
+
+        request()->validate([
+            'title'  => 'required',
+            'image'  => 'nullable',
+            'body'   => 'required',
+         ]);
         
-                request()->validate([
-                    'title'   => 'required',
-                    'image'   => 'nullable|mimes:jpg,png,svg',
-                    'title'   => 'required',
-                ]);
+        //Upload cover image if present
+        if ($request->hasFile('image')) {
+            Storage::delete('/' . $post->image);
+            $request->image->storeAs('images', time() . '_' . $request->image->getClientOriginalName(), 'public');
+            $post->image = 'images/' . time() . '_' . $request->image->getClientOriginalName();
+        } else {
+            $post->image = $post->image;
+        }
+
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $user->posts()->save($post);
         
-                //Upload cover image if present
-                if ($request->hasFile('image')) {
-                    Storage::delete('/' . $post->image);
-                    $request->image->storeAs('images', time() . '_' . $request->image->getClientOriginalName(), 'public');
-                    $post->image = 'images/' . time() . '_' . $request->image->getClientOriginalName();
-                } else {
-                    $post->image = $post->image;
-                }
-                // Upload cover image if present
-                // if ($request->file('image')) {
-                //     $request->image->storeAs('images', time() . '_' . $request->image->getClientOriginalName(), 'public');
-                //      $post->image = 'images/' . time() . '_' . $request->image->getClientOriginalName();
-                //  } else {
-                //      $post->image = null;
-                // }
-                $post->title = $request->title;
-                $post->body = $request->body;
-                $user->posts()->save($post);
+        session()->flash('success', 'Post created successfully');
         
-                session()->flash('success', 'Post created successfully');
-        
-                return redirect()->route('posts.index');
+        return redirect()->route('posts.index');
     }
 
     /**

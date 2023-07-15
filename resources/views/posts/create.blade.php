@@ -22,10 +22,8 @@
                 <label>Image</label>
                 <input type="file" accept="image/*" name="image"
                        class="form-control @error('image') is-invalid @enderror">
-                       @if ($errors)
-                        @error('image')
-                        <span class="invalid-feedback">{{ $message }}</span>
-                        @enderror
+                       @if ($errors->has('image'))
+                        <span class="invalid-feedback">{{ $errors->first('image') }}</span>
                        @else      
                         <small class="d-block text-muted mt-1">Accepted format: .png, .jpg, .svg</small>
                        @endif

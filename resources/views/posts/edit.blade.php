@@ -23,13 +23,11 @@
                 <label>Image</label>
                 <input type="file" accept="image/*" name="image"
                        class="form-control  @error('image') is-invalid @enderror">
-                       @if ($errors)
-                            @error('image')
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                      @else      
-                        <small class="d-block text-muted mt-1">Accepted format: .png, .jpg, .svg</small>
-                      @endif
+                       @if ($errors->has('image'))
+                       <span class="invalid-feedback">{{ $errors->first('image') }}</span>
+                   @else      
+                       <small class="d-block text-muted mt-1">Accepted format: .png, .jpg, .svg</small>
+                   @endif
 
                        @if ($post->image)
                        <img src="{{ asset('storage/' .$post->image)}}" alt="{{$post->title}}" class="mb-3 mt-1" width="100px" height="100px">
