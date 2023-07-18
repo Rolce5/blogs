@@ -22,7 +22,7 @@ use App\Http\Controllers\CommentController;
 //     return $request->user();
 // });
 Route::get('/home', [HomeController::class, 'index'])->name('api.home');
-Route::get('/posts/{post}', [HomeController::class, 'show'])->name('post');
+Route::get('/post/{post}', [HomeController::class, 'show'])->name('post');
 Route::post('/login', [UserController::class, 'login'])->name('login');
 Route::post('/register', [UserController::class, 'store']);
 Route::post('/comment', [CommentController::class, 'store'])->name('comments');
@@ -32,7 +32,7 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/register', [UserController::class, 'create'])->name('register');
 });
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth:api']], function () {
     Route::resource('posts', PostController::class);
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 });

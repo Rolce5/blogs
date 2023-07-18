@@ -20,8 +20,10 @@ class PostController extends Controller
         // Get all the posts of the user
         $posts = $user->posts;
 
-        return view('posts.index', compact('posts'));
-        // return response()->json($posts);
+        // return view('posts.index', compact('posts'));
+        return response()->json([
+            'posts' => $posts
+        ]);
     }
 
     /**
@@ -65,7 +67,11 @@ class PostController extends Controller
 
         session()->flash('success', 'Post created successfully');
 
-        return redirect()->route('posts.index');
+        // return redirect()->route('posts.index');
+        return response()->json([
+            'status' => 200,
+            'message' => 'post created successfully'
+        ]);
     }
 
     /**

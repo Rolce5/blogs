@@ -33,7 +33,7 @@
                     <a href="{{ route('login') }}" class="nav-link"><i class="bi bi-box-arrow-in-right"></i>Login</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('register') }}" class="nav-link"><i class="bi bi-person-plus-fill"></i></i>Register</a>
+                    <a href="{{ route('register') }}" class="nav-link"><i class="bi bi-person-plus-fill"></i>Register</a>
                 </li>
                 @endguest
             </ul>
