@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Post;
 use App\Models\User;
@@ -20,7 +20,6 @@ class PostController extends Controller
         // Get all the posts of the user
         $posts = $user->posts;
 
-        // return view('posts.index', compact('posts'));
         return response()->json([
             'posts' => $posts
         ]);

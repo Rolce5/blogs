@@ -1,40 +1,36 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Post;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
 {
     //
     public function store(Request $request, Post $post){
-    
+
         // Validate the request data
-        $validatedData = $request->validate([
+        $validatedData = Validator::make($request->all(), [
             'author' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'comment' => 'required|string'
         ]);
-    
-        // Create a new comment with the validated data
-        // $comment = new Comment($validatedData);
-    
-        // Associate the comment with the post and save it
-        // $post->comments()->save($comment);
-    
-        // session()->flash('success', 'Comment added successfully');
-        // Redirect back to the post with a success message
-        // return redirect()->back()->with('success', 'Comment added successfully.');
 
         if($validatedData->fails()){
-            return response->json([
+            return response()->json([
                 'status' => 422,
-                'error' => $validatedData-messages()
+                'error' => $validatedData->messages()
             ], 422);
         }else{
-            $comment = new Comment($validatedData);
+            // Create a new comment with the validated data
+            $comment = $post->comments()->create([
+                'author' => $request->author,
+                'email' => $request->email,
+                'comment' => $request->comment
+            ]);
             if($comment){
                 return reponse()->json([
                     'status' => 200,

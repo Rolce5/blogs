@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -11,7 +11,6 @@ class HomeController extends Controller
     //
     public function index(){
         $posts = Post::latest()->paginate(6);
-        // return view('home.index', compact('posts'));
         return response()->json([
             'posts' => $posts,
             'createdAt' => now(),
@@ -25,7 +24,6 @@ class HomeController extends Controller
 
 
         // Pass the post to a view for display
-        // return view('home.show', compact('post'));
         return response()->json([
             'post' => $post,
             'imageUrl' => $imageUrl
